@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: gasession
+  jpa:
+    database: "mysql"
+    show-sql: "true"
+    hibernate:
+      ddl-auto: "update"
+    properties:
+      hibernate:
+        format_sql: true
+    generate-ddl: true
+
+  datasource:
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
+    url: "jdbc:mysql://172.16.3.4:3306/gasession"
+    username: "root"
+    password: "1234"
