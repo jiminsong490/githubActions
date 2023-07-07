@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.13'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'jacoco'
 }
 
 group = 'com.techeer'
@@ -33,7 +34,45 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+	finalizedBy 'jacocoTestReport'
 }
+
+jacoco {
+	toolVersion = "0.8.7"
+}
+
+jacocoTestReport {
+	reports {
+		html {
+			enabled true
+		}
+		html.destination = file("${buildDir}/jacoco/index.html")
+	}
+	finalizedBy 'jacocoTestCoverageVerification'
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			enabled = true
+			element = 'CLASS'
+
+			limit {
+				counter = 'LINE'
+				value = 'COVEREDRATIO'
+				minimum = 0.40
+			}
+			excludes = [
+					"*.*Application*",
+					"*.book.entity",
+					"*.global.entity*",
+					"*.global.entity",
+			]
+		}
+
+	}
+}
+
 
 tasks.named("bootBuildImage") { // ./gradlew bootBuildImage 시 docker hub로 배포
 	imageName = project.DOCKER_ID + "/" + project.DOCKER_IMAGE_NAME
