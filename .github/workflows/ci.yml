@@ -11,11 +11,6 @@ on:
       - main
       - develop
 
-env:
-  DOCKER_ID: ${{ secrets.DOCKER_ID }}
-  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-  DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_IMAGE_NAME }}
-
 permissions: write-all
 
 jobs:
@@ -37,7 +32,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Gradle build 수행
-        run: ./gradlew build -P DOCKER_ID=${{ secrets.DOCKER_ID }} -P DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }} -P DOCKER_IMAGE_NAME=${{ secrets.DOCKER_IMAGE_NAME }}
+        run: ./gradlew build
 
       - name: 테스트 결과
         uses: EnricoMi/publish-unit-test-result-action@v1
@@ -51,6 +46,5 @@ jobs:
         with:
           title: 📝 테스트 커버리지 리포트입니다
           paths: ${{ github.workspace }}/build/jacoco/index.xml
-          token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 80
           min-coverage-changed-files: 70
