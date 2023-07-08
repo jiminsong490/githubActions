@@ -30,7 +30,7 @@ jobs:
         run: |
           echo "$SSH_PEM_KEY" >> $HOME/key.pem
           chmod 400 $HOME/key.pem
-          ssh -i $HOME/key.pem ${SSH_USER}@${SSH_KNOWN_HOSTS}
+          ssh -T -i $HOME/key.pem ${SSH_USER}@${SSH_KNOWN_HOSTS}
         env:
           SSH_USER: ${{secrets.AWS_USER}}
           SSH_KNOWN_HOSTS: ${{secrets.AWS_HOST}}
