@@ -43,10 +43,37 @@ jacoco {
 
 jacocoTestReport {
 	reports {
+		html.required.set(true)
+		xml.required.set(true)
+		csv.required.set(true)
+		xml {
+			enabled true
+			destination file("$buildDir/jacoco/index.xml")
+		}
+		csv {
+			enabled true
+			destination file("$buildDir/jacoco/index.csv")
+		}
 		html {
 			enabled true
+			destination file("$buildDir/jacoco/index.html")
 		}
-		html.destination = file("${buildDir}/jacoco/index.html")
+	}
+	def Qdomains = []
+	for (qPattern in '**/QA'..'**/QZ') {
+		Qdomains.add(qPattern + '*')
+	}
+
+	afterEvaluate {
+		classDirectories.setFrom(
+				files(classDirectories.files.collect {
+					fileTree(dir: it, excludes: [
+							"**/*Application*",
+							"**/entity/",
+							"**/global/",
+					] + Qdomains)
+				})
+		)
 	}
 	finalizedBy 'jacocoTestCoverageVerification'
 }
