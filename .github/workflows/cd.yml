@@ -18,19 +18,19 @@ jobs:
         with:
           java-version: 11
 
-      - name: Setting gradle.properties
-        run: |
-          echo "${{ secrets.GRADLE_PROPERTIES }}" >> gradle.properties
-          cat gradle.properties
+#      - name: Setting gradle.properties
+#        run: |
+#          echo "${{ secrets.GRADLE_PROPERTIES }}" >> gradle.properties
+#          cat gradle.properties
 
-      - name: Docker image build
-        run: ./gradlew bootBuildImage
+#      - name: Docker image build
+#        run: ./gradlew bootBuildImage
 
       - name: Connect EC2
         run: |
           echo "$SSH_PEM_KEY" >> $HOME/key.pem
           chmod 400 $HOME/key.pem
-          ssh -i $HOME/key.pem -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_KNOWN_HOSTS} '~/script.sh'
+          ssh -i $HOME/key.pem ${SSH_USER}@${SSH_KNOWN_HOSTS}
         env:
           SSH_USER: ${{secrets.AWS_USER}}
           SSH_KNOWN_HOSTS: ${{secrets.AWS_HOST}}
