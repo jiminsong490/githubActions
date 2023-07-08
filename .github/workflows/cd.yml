@@ -18,6 +18,11 @@ jobs:
         with:
           java-version: 11
 
+      - name: Setting gradle.properties
+        run: |
+          echo "${{ secrets.GRADLE_PROPERTIES }}" >> gradle.properties
+          cat gradle.properties
+
       - name: Docker image build
         run: ./gradlew bootBuildImage
 
