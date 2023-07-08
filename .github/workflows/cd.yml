@@ -27,10 +27,14 @@ jobs:
         run: ./gradlew bootBuildImage
 
       - name: Connect EC2
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.AWS_HOST }}
-          username: ${{ secrets.AWS_USERNAME }}
-          key: ${{ secrets.AWS_SSH_KEY_PEM }}
+        run: |
+          echo "$SSH_PEM_KEY" >> $HOME/key.pem
+          chmod 400 $HOME/key.pem
+          ssh -i $HOME/key.pem -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_KNOWN_HOSTS} '~/script.sh'
+        env:
+          SSH_USER: ${{secrets.AWS_USERNAME}}
+          SSH_KNOWN_HOSTS: ${{secrets.AWS_HOST}}
+          SSH_PEM_KEY: ${{secrets.AWS_SSH_KEY_PEM}}
+
       - name: check
         run: ls

@@ -13,6 +13,6 @@ spring:
 
   datasource:
     driver-class-name: "com.mysql.cj.jdbc.Driver"
-    url: "jdbc:mysql://localhost:3306/gasession"
+    url: "jdbc:mysql://172.16.3.4:3306/gasession"
     username: "root"
     password: "1234"
