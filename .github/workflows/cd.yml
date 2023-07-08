@@ -27,3 +27,5 @@ jobs:
           host: ${{ secrets.AWS_HOST }}
           username: ${{ secrets.AWS_USERNAME }}
           key: ${{ secrets.AWS_SSH_KEY_PEM }}
+      - name: check
+        run: ls
